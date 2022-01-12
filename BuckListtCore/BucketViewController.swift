@@ -38,23 +38,33 @@ var lists = [BucketListItem]()
         save()
         tableView.reloadData()
     }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "addItem" {
+//        let navController = segue.destination as! UINavigationController
+//        let addItem = navController.topViewController as! AddToTableViewController
+//            addItem.delegate = self
+//
+//        }
+//       else if segue.identifier == "editItem" {
+//            let navController = segue.destination as! UINavigationController
+//            let addItem = navController.topViewController as! AddToTableViewController
+//                addItem.delegate = self
+//            let indexPath = sender as! NSIndexPath
+//            let item = lists[indexPath.row]
+//        addItem.item = item.goals
+//           addItem.indexPath = indexPath
+//    }
+//   }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "addItem" {
-        let navController = segue.destination as! UINavigationController
-        let addItem = navController.topViewController as! AddToTableViewController
-            addItem.delegate = self
-            
-        }
-       else if segue.identifier == "editItem" {
-            let navController = segue.destination as! UINavigationController
-            let addItem = navController.topViewController as! AddToTableViewController
-                addItem.delegate = self
-            let indexPath = sender as! NSIndexPath
-            let item = lists[indexPath.row]
-        addItem.item = item.goals
-           addItem.indexPath = indexPath
-    }
-    }
+         let destination = segue.destination as! UINavigationController
+         let newViewController = destination.topViewController as! AddToTableViewController
+         newViewController.delegate = self
+         if let indexPath = sender as? NSIndexPath {
+             //let indexPath = sender as! NSIndexPath
+            newViewController.item = lists[indexPath.row].goals
+             newViewController.indexPath = indexPath
+         }
+     }
     func fetchAllItems() {
           let itemRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BucketListItem")
           do {
